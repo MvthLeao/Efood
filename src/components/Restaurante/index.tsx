@@ -13,7 +13,7 @@ import {
 } from './styles'
 import { Link } from 'react-router-dom'
 
-const Product = () => (
+const Restaurante = () => (
   <>
     <Item>
       <ImgContainer>
@@ -61,4 +61,4 @@ const Product = () => (
   </>
 )
 
-export default Product
+export default Restaurante

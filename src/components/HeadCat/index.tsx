@@ -9,7 +9,7 @@ import {
   Text,
   Title
 } from './styles'
-import { Container } from '../ListProduct/styles'
+import { Container } from '../ListRestaurante/styles'
 
 const Banner = () => (
   <>

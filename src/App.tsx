@@ -9,11 +9,13 @@ import Footer from './components/Footer'
 import { GlobalCss } from './styled'
 import Inicial from './components/pages/Inicial/index'
 import Categories from './components/pages/Categories'
+import Produto from './components/Produto'
 
 const Rotas = () => (
   <Routes>
     <Route path="/" element={<Inicial />} />
     <Route path="/categories" element={<Categories />} />
+    <Route path="/listitaly" element={<Produto />} />
   </Routes>
 )
 

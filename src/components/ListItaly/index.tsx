@@ -1,16 +1,16 @@
-import ProductItaly from '../ProductItaly'
+import Produto from '../Produto'
 import { ContainerItaly, GridItaly } from './styles'
 
 const ListItaly = () => (
   <>
     <ContainerItaly>
       <GridItaly>
-        <ProductItaly />
-        <ProductItaly />
-        <ProductItaly />
-        <ProductItaly />
-        <ProductItaly />
-        <ProductItaly />
+        <Produto />
+        <Produto />
+        <Produto />
+        <Produto />
+        <Produto />
+        <Produto />
       </GridItaly>
     </ContainerItaly>
   </>
