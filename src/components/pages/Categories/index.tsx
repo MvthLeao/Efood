@@ -1,17 +1,11 @@
-import Banner from '../../HeadCat'
+import Banner from '../../BannerCategoria'
 import Cardapio from '../../Cardapio'
 
 const Categories = () => (
   <>
     <Banner />
-    <Cardapio />
+    <Cardapio cardapio={[]} />
   </>
 )
 
 export default Categories
-
-/*
-    header da categoria
-    banner da categoria
-    lista de produtos da categoria (6 itens)
-*/
