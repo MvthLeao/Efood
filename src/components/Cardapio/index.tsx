@@ -11,21 +11,20 @@ import { useState, useEffect } from 'react'
 import { CardapioItem } from '../ListRestaurante'
 
 type CardapioProps = {
-  restauranteId: string // Recebe a ID do restaurante como prop
+  restauranteId: string
 }
 
 const Cardapio = ({ restauranteId }: CardapioProps) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedItem, setSelectedItem] = useState<CardapioItem | null>(null)
-  const [cardapio, setCardapio] = useState<CardapioItem[]>([]) // Estado para os produtos
+  const [cardapio, setCardapio] = useState<CardapioItem[]>([])
 
-  // Função para buscar o cardápio baseado na ID do restaurante
   useEffect(() => {
     const fetchCardapio = async () => {
       try {
         const response = await fetch(
           `/api/restaurantes/${restauranteId}/cardapio`
-        ) // Substituir com a URL correta da API
+        )
         const data = await response.json()
         setCardapio(data)
       } catch (error) {
@@ -33,7 +32,7 @@ const Cardapio = ({ restauranteId }: CardapioProps) => {
       }
     }
     fetchCardapio()
-  }, [restauranteId]) // Executa quando a ID do restaurante mudar
+  }, [restauranteId])
 
   const handleShowModal = (item: CardapioItem) => {
     setSelectedItem(item)

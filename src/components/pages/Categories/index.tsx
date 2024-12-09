@@ -3,13 +3,12 @@ import Banner from '../../BannerCategoria'
 import Cardapio from '../../Cardapio'
 
 const Categories = () => {
-  const { restauranteId } = useParams<{ restauranteId: string }>() // Captura o ID da URL
+  const { restauranteId } = useParams<{ restauranteId: string }>()
 
   return (
     <>
       <Banner />
       {restauranteId && <Cardapio restauranteId={restauranteId} />}{' '}
-      {/* Passa o ID */}
     </>
   )
 }
