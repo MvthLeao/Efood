@@ -71,15 +71,12 @@ export const Description = styled.p`
 `
 
 export const BtnMore = styled.button`
-  margin: 8px;
-  padding: 5px;
+  margin: 10px;
+  width: 82px;
+  height: 24px;
   background-color: ${cores.rosa};
   color: ${cores.branca};
   font-size: 14px;
+  cursor: pointer;
   border: none;
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
 `

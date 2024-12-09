@@ -7,20 +7,37 @@ import {
   ModalContent
 } from './styles'
 import Close from '../../assets/images/close.png'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CardapioItem } from '../ListRestaurante'
 
 type CardapioProps = {
-  cardapio: CardapioItem[]
+  restauranteId: string // Recebe a ID do restaurante como prop
 }
 
-const Cardapio = ({ cardapio }: CardapioProps) => {
-  const [ModalVisible, SetModalVisible] = useState(false)
+const Cardapio = ({ restauranteId }: CardapioProps) => {
+  const [modalVisible, setModalVisible] = useState(false)
   const [selectedItem, setSelectedItem] = useState<CardapioItem | null>(null)
+  const [cardapio, setCardapio] = useState<CardapioItem[]>([]) // Estado para os produtos
+
+  // Função para buscar o cardápio baseado na ID do restaurante
+  useEffect(() => {
+    const fetchCardapio = async () => {
+      try {
+        const response = await fetch(
+          `/api/restaurantes/${restauranteId}/cardapio`
+        ) // Substituir com a URL correta da API
+        const data = await response.json()
+        setCardapio(data)
+      } catch (error) {
+        console.error('Erro ao buscar o cardápio:', error)
+      }
+    }
+    fetchCardapio()
+  }, [restauranteId]) // Executa quando a ID do restaurante mudar
 
   const handleShowModal = (item: CardapioItem) => {
     setSelectedItem(item)
-    SetModalVisible(true)
+    setModalVisible(true)
   }
 
   return (
@@ -37,7 +54,7 @@ const Cardapio = ({ cardapio }: CardapioProps) => {
         </GridCardapio>
       </ContainerCardapio>
       {selectedItem && (
-        <Modal className={ModalVisible ? 'visible' : ''}>
+        <Modal className={modalVisible ? 'visible' : ''}>
           <ModalContent>
             <div>
               <img src={selectedItem.foto} alt="Prato selecionado" />
@@ -48,7 +65,7 @@ const Cardapio = ({ cardapio }: CardapioProps) => {
                 <img
                   src={Close}
                   alt="close modal"
-                  onClick={() => SetModalVisible(false)}
+                  onClick={() => setModalVisible(false)}
                 />
               </div>
               <p>
@@ -57,7 +74,7 @@ const Cardapio = ({ cardapio }: CardapioProps) => {
               <button>Adicionar ao carrinho - {selectedItem.preco}</button>
             </Description>
           </ModalContent>
-          <div className="overlay" onClick={() => SetModalVisible(false)}></div>
+          <div className="overlay" onClick={() => setModalVisible(false)}></div>
         </Modal>
       )}
     </>

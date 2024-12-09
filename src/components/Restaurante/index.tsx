@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Opçao } from '../ListRestaurante'
 import Star from '../../assets/images/star.png'
 
@@ -17,6 +17,8 @@ export type RestauranteProps = {
 }
 
 const Restaurante = ({ restaurante }: RestauranteProps) => {
+  const navigate = useNavigate()
+
   return (
     <Item>
       <ImgContainer>
@@ -33,8 +35,8 @@ const Restaurante = ({ restaurante }: RestauranteProps) => {
       </Title>
       <div>
         <Description>{restaurante.descricao}</Description>
-        <BtnMore>
-          <Link to="/categories">Saiba mais</Link>
+        <BtnMore onClick={() => navigate(`/categories/${restaurante.id}`)}>
+          Saiba mais
         </BtnMore>
       </div>
     </Item>

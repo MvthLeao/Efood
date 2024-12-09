@@ -20,7 +20,7 @@ export const Title = styled.p`
   color: ${cores.branca};
 `
 
-export const Description = styled.p`
+export const Description = styled.div`
   padding: 8px 0;
   font-size: 14px;
   line-height: 19px;

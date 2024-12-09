@@ -64,6 +64,7 @@ export const Description = styled.div`
   margin-left: 24px;
 
   div {
+    // o erro esta aqui //
     display: flex;
     justify-content: space-between;
 
