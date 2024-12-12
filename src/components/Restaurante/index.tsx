@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Opçao } from '../ListRestaurante'
+import { Opçao } from '../../types'
 import Star from '../../assets/images/star.png'
 
 import {

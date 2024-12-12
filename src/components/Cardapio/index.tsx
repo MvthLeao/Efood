@@ -1,4 +1,5 @@
 import Produto from '../Produto'
+import { useParams } from 'react-router-dom'
 import {
   ContainerCardapio,
   Description,
@@ -8,31 +9,30 @@ import {
 } from './styles'
 import Close from '../../assets/images/close.png'
 import { useState, useEffect } from 'react'
-import { CardapioItem } from '../ListRestaurante'
+import { CardapioItem } from '../../types'
 
-type CardapioProps = {
-  restauranteId: string
-}
-
-const Cardapio = ({ restauranteId }: CardapioProps) => {
+const Cardapio = () => {
+  const { id } = useParams()
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedItem, setSelectedItem] = useState<CardapioItem | null>(null)
   const [cardapio, setCardapio] = useState<CardapioItem[]>([])
 
   useEffect(() => {
-    const fetchCardapio = async () => {
-      try {
-        const response = await fetch(
-          `/api/restaurantes/${restauranteId}/cardapio`
-        )
-        const data = await response.json()
-        setCardapio(data)
-      } catch (error) {
-        console.error('Erro ao buscar o cardápio:', error)
-      }
-    }
-    fetchCardapio()
-  }, [restauranteId])
+    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.cardapio) {
+          setCardapio(res.cardapio)
+        } else {
+          console.error('Resposta inesperada da API:', res)
+          setCardapio([])
+        }
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar dados:', error)
+        setCardapio([])
+      })
+  }, [id])
 
   const handleShowModal = (item: CardapioItem) => {
     setSelectedItem(item)
@@ -43,13 +43,14 @@ const Cardapio = ({ restauranteId }: CardapioProps) => {
     <>
       <ContainerCardapio>
         <GridCardapio>
-          {cardapio.map((item) => (
-            <Produto
-              key={item.id}
-              cardapio={item}
-              SetModalVisible={() => handleShowModal(item)}
-            />
-          ))}
+          {Array.isArray(cardapio) &&
+            cardapio.map((item) => (
+              <Produto
+                key={item.id}
+                cardapio={item}
+                SetModalVisible={() => handleShowModal(item)}
+              />
+            ))}
         </GridCardapio>
       </ContainerCardapio>
       {selectedItem && (
@@ -68,9 +69,12 @@ const Cardapio = ({ restauranteId }: CardapioProps) => {
                 />
               </div>
               <p>
-                {selectedItem.descricao} <br /> <br /> {selectedItem.porcao}
+                {selectedItem.descricao} <br /> <br />{' '}
+                {`Serve: de ${selectedItem.porcao}`}
               </p>
-              <button>Adicionar ao carrinho - {selectedItem.preco}</button>
+              <button>
+                Adicionar ao carrinho - {`R$ ${selectedItem.preco}`}
+              </button>
             </Description>
           </ModalContent>
           <div className="overlay" onClick={() => setModalVisible(false)}></div>

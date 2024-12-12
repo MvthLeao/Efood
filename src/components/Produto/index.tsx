@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from 'react'
 import { Specification, Description, Item, Title } from './styles'
-import { Link } from 'react-router-dom'
-import { CardapioItem } from '../ListRestaurante'
+import { CardapioItem } from '../../types'
 
 export type ProdutoProps = {
   SetModalVisible: Dispatch<SetStateAction<boolean>>
@@ -9,24 +8,20 @@ export type ProdutoProps = {
 }
 
 const Produto = ({ SetModalVisible, cardapio }: ProdutoProps) => {
+  const limitText = (text: string, maxlength: number) => {
+    return text.length > maxlength ? `${text.substring(0, maxlength)}...` : text
+  }
+
   return (
     <Item>
       {cardapio && (
         <>
-          <img src={cardapio.foto} alt="Imagem Prato" />
+          <img src={cardapio.foto} alt={cardapio.nome} />
           <div>
             <Title>{cardapio.nome}</Title>
-            <Description>{cardapio.descricao}</Description>
-            <Specification>
-              <Link
-                to={''}
-                onClick={(e) => {
-                  e.preventDefault()
-                  SetModalVisible(true)
-                }}
-              >
-                Especificação do produto
-              </Link>
+            <Description>{limitText(cardapio.descricao, 250)}</Description>
+            <Specification onClick={() => SetModalVisible(true)}>
+              Especificação do produto
             </Specification>
           </div>
         </>

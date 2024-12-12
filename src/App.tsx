@@ -3,14 +3,12 @@ import Footer from './components/Footer'
 import { GlobalCss } from './styled'
 import Inicial from './components/pages/Inicial/index'
 import Categories from './components/pages/Categories'
-import Cardapio from './components/Cardapio'
 
 const Rotas = () => (
   <Routes>
     <Route path="/" element={<Inicial />} />
-    <Route path="/categories:restauranteId" element={<Categories />} />
-    <Route path="/produto" element={<Cardapio restauranteId="1" />} />{' '}
-    {/* Ajustado */}
+    <Route path="/categories/:id" element={<Categories />} />
+    <Route path="/categories/:id" element={<Categories />} />
   </Routes>
 )
 
