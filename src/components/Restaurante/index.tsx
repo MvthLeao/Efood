@@ -23,7 +23,7 @@ const Restaurante = ({ restaurante }: RestauranteProps) => {
     <Item>
       <ImgContainer>
         <img src={restaurante.capa} alt={restaurante.titulo} />
-        <TagDestaque>Destaque da semana</TagDestaque>
+        {restaurante.destacado && <TagDestaque>Destaque da semana</TagDestaque>}
         <TagNacionalidade>{restaurante.tipo}</TagNacionalidade>
       </ImgContainer>
       <Title>

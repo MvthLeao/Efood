@@ -1,7 +1,7 @@
 export type Opçao = {
   id: number
   titulo: string
-  destacado?: boolean
+  destacado: boolean
   tipo: string
   avaliacao: string
   descricao: string
