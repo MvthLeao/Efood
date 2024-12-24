@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Logo from '../../assets/images/logo.png'
 import Fundo from '../../assets/images/fundo.png'
 import {
+  ButtonCart,
   ContentContainer,
   Description,
   Head,
@@ -12,6 +13,9 @@ import {
 import { Container } from '../ListRestaurante/styles'
 import { Opçao } from '../../types'
 import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { open } from '../../store/reducers/cart'
+import { RootReducer } from '../../store'
 
 type ContentBanner = {
   content?: Opçao
@@ -19,7 +23,13 @@ type ContentBanner = {
 
 const Banner = ({ content: initialContent }: ContentBanner) => {
   const [content, setContent] = useState<Opçao | undefined>(initialContent)
+  const { items } = useSelector((state: RootReducer) => state.cart)
   const { id } = useParams()
+
+  const dispatch = useDispatch()
+  const openCart = () => {
+    dispatch(open())
+  }
 
   useEffect(() => {
     if (!initialContent) {
@@ -37,7 +47,9 @@ const Banner = ({ content: initialContent }: ContentBanner) => {
           <Container>
             <Text>Restaurante</Text>
             <img src={Logo} alt="Logotipo" />
-            <Text>0 produto(s) no carrinho</Text>
+            <ButtonCart onClick={openCart}>
+              {items.length} produto(s) no carrinho
+            </ButtonCart>
           </Container>
         </Head>
       </div>

@@ -34,7 +34,7 @@ export const Specification = styled.button`
   height: 24px;
   font-size: 14px;
   font-weight: bold;
-  background-color: #ffebd9;
+  background-color: ${cores.offWhite};
   color: ${cores.rosa};
   border: none;
   border-radius: 5px;

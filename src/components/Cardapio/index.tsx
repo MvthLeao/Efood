@@ -10,6 +10,10 @@ import {
 import Close from '../../assets/images/close.png'
 import { useState, useEffect } from 'react'
 import { CardapioItem } from '../../types'
+import Cart from '../Cart'
+import { useDispatch } from 'react-redux'
+import { add } from '../../store/reducers/cart'
+import { formataPreco } from '../../styled'
 
 const Cardapio = () => {
   const { id } = useParams()
@@ -39,6 +43,14 @@ const Cardapio = () => {
     setModalVisible(true)
   }
 
+  const dispatch = useDispatch()
+
+  const addToCart = () => {
+    if (selectedItem) {
+      dispatch(add(selectedItem))
+    }
+  }
+
   return (
     <>
       <ContainerCardapio>
@@ -53,6 +65,7 @@ const Cardapio = () => {
             ))}
         </GridCardapio>
       </ContainerCardapio>
+      <Cart />
       {selectedItem && (
         <Modal className={modalVisible ? 'visible' : ''}>
           <ModalContent>
@@ -72,8 +85,8 @@ const Cardapio = () => {
                 {selectedItem.descricao} <br /> <br />{' '}
                 {`Serve: de ${selectedItem.porcao}`}
               </p>
-              <button>
-                Adicionar ao carrinho - {`R$ ${selectedItem.preco}`}
+              <button onClick={addToCart}>
+                Adicionar ao carrinho - {`${formataPreco(selectedItem.preco)}`}
               </button>
             </Description>
           </ModalContent>

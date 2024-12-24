@@ -44,6 +44,14 @@ export const Text = styled.p`
   color: ${cores.rosa};
   font-weight: bold;
 `
+export const ButtonCart = styled.button`
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  color: ${cores.rosa};
+  font-weight: bold;
+  cursor: pointer;
+`
 
 export const Description = styled.p`
   margin-top: 24px;
