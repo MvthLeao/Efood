@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
-import Card from '../../Card'
-import { DeliveryButton } from '../../Cart/styles'
-import { InputGroup, Row, Title } from './styles'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootReducer } from '../../../store'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import { clear, open } from '../../../store/reducers/cart'
 import { usePurchaseMutation } from '../../../services/api'
+
 import { getTotalPrice, parseToBrl } from '../../../utils'
+import { InputGroup, Message, Row, Title } from './styles'
+import { clear, open } from '../../../store/reducers/cart'
+import { DeliveryButton } from '../../Cart/styles'
+import InputMask from 'react-input-mask'
+import Card from '../../Card'
+
+import * as Yup from 'yup'
 
 const Checkout = ({ onClose }: { onClose: () => void }) => {
   const [payWith, setPayWith] = useState(false)
@@ -41,22 +44,21 @@ const Checkout = ({ onClose }: { onClose: () => void }) => {
       address: Yup.string().required('Este campo é obrigatório'),
       city: Yup.string().required('Este campo é obrigatório'),
       cep: Yup.string()
-        .min(8, 'CEP inválido')
-        .max(8)
+        .min(9, 'CEP inválido')
+        .max(9)
         .required('Este campo é obrigatório'),
       number: Yup.number().required('Este campo é obrigatório'),
       complement: Yup.string(),
 
       // validação minuciosa para pagamento
-      nameCard: Yup.string()
-        .min(5, 'No mínimo 5 caracteres')
-        .when(() =>
-          payWith
-            ? Yup.string().required('Este campo é obrigatório')
-            : Yup.string()
-        ),
+      nameCard: Yup.string().when(() =>
+        payWith
+          ? Yup.string().required('Este campo é obrigatório')
+          : Yup.string()
+      ),
       numberCard: Yup.string()
-        .min(5, 'No mínimo 5 caracteres')
+        .min(16, 'No mínimo 5 caracteres')
+        .max(16)
         .when(() =>
           payWith
             ? Yup.string().required('Este campo é obrigatório')
@@ -180,27 +182,27 @@ const Checkout = ({ onClose }: { onClose: () => void }) => {
         <Card>
           <>
             <div className="MensagemDeConcusão">
-              <h2>Pedido realizado - {data.orderId}</h2>
-              <p>
+              <Title>Pedido realizado - {data.orderId}</Title>
+              <Message>
                 Estamos felizes em informar que seu pedido já está em processo
                 de preparação e, em breve, será entregue no endereço fornecido.
-              </p>
-              <p>
+              </Message>
+              <Message>
                 Gostaríamos de ressaltar que nossos entregadores não estão
                 autorizados a realizar cobranças extras.
-              </p>
-              <p>
+              </Message>
+              <Message>
                 Lembre-se da importância de higienizar as mãos após o
                 recebimento do pedido, garantindo assim sua segurança e
                 bem-estar durante a refeição.
-              </p>
-              <p>
+              </Message>
+              <Message>
                 Esperamos que desfrute de uma deliciosa e agradável experiência
                 gastronômica. Bom apetite!
-              </p>
-              <button type="button" onClick={allConclude}>
+              </Message>
+              <DeliveryButton type="button" onClick={allConclude}>
                 Concluir
-              </button>
+              </DeliveryButton>
             </div>
           </>
         </Card>
@@ -260,13 +262,14 @@ const Checkout = ({ onClose }: { onClose: () => void }) => {
                       <InputGroup className="areaFlex">
                         <div>
                           <label htmlFor="cep">CEP</label>
-                          <input
+                          <InputMask
                             type="text"
                             id="cep"
                             name="cep"
                             value={form.values.cep}
                             onChange={form.handleChange}
                             onBlur={form.handleBlur}
+                            mask="99999-999"
                             required
                           />
                           <small>{mensageError('cep', form.errors.cep)}</small>
@@ -343,13 +346,14 @@ const Checkout = ({ onClose }: { onClose: () => void }) => {
                       <InputGroup className="areaFlex">
                         <div>
                           <label htmlFor="numberCard">Número do cartão</label>
-                          <input
-                            type="text"
+                          <InputMask
+                            type="string"
                             id="numberCard"
                             name="numberCard"
                             value={form.values.numberCard}
                             onChange={form.handleChange}
                             onBlur={form.handleBlur}
+                            mask="9999 9999 9999 9999"
                             required
                           />
                           <small>
@@ -358,13 +362,14 @@ const Checkout = ({ onClose }: { onClose: () => void }) => {
                         </div>
                         <div>
                           <label htmlFor="codeCard">CVV</label>
-                          <input
-                            type="number"
+                          <InputMask
+                            type="text"
                             id="codeCard"
                             name="codeCard"
                             value={form.values.codeCard}
                             onChange={form.handleChange}
                             onBlur={form.handleBlur}
+                            mask="999"
                             required
                           />
                           <small>
@@ -376,13 +381,14 @@ const Checkout = ({ onClose }: { onClose: () => void }) => {
                       <InputGroup className="areaFlex">
                         <div>
                           <label htmlFor="monthCard">Mês de vencimento</label>
-                          <input
-                            type="number"
+                          <InputMask
+                            type="text"
                             id="monthCard"
                             name="monthCard"
                             value={form.values.monthCard}
                             onChange={form.handleChange}
                             onBlur={form.handleBlur}
+                            mask="99"
                             required
                           />
                           <small>
@@ -391,13 +397,14 @@ const Checkout = ({ onClose }: { onClose: () => void }) => {
                         </div>
                         <div>
                           <label htmlFor="yearCard">Ano de vencimento</label>
-                          <input
-                            type="number"
+                          <InputMask
+                            type="text"
                             id="yearCard"
                             name="yearCard"
                             value={form.values.yearCard}
                             onChange={form.handleChange}
                             onBlur={form.handleBlur}
+                            mask="99"
                             required
                           />
                           <small>

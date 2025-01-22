@@ -8,6 +8,14 @@ export const Title = styled.h1`
   font-weight: bold;
 `
 
+export const Message = styled.p`
+  color: ${cores.offWhite};
+  font-size: 14px;
+  line-height: 22px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+`
+
 export const Row = styled.div`
   display: block;
   margin-bottom: 16px;
